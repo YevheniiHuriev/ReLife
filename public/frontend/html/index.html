@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/index.css">
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/loader.css">
+    <title>Library</title>
+</head>
+<body>
+
+<div class="load"  style="display: none">
+    <div class="loader"></div>
+</div>
+
+<div class="body-page" style="display: none">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">ReLife</div>
+            <ul class="navbar-links">
+                <li><a href="/frontend/html/index.html">Home</a></li>
+            </ul>
+            <form class="search-form" action="#" method="get">
+                <input type="text" class="search-input" placeholder="Search" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form>
+            <div class="navbar-user">
+                <a href="/frontend/html/auth/login.html" class="login-link" id="loginLink">Login</a>
+
+                <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">Username</button>
+                    <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="/frontend/html/auth/profile.html">Profile</a></li>
+                        <li><a href="/frontend/html/book/favorites.html">Favorites</a></li>
+                        <li id="mess_indicator">
+                            <a href="/frontend/html/user/message.html">
+                                Messages <span id="unread_messages_indicator" style="display: none;" class="indicator">●</span>
+                            </a>
+                        </li>
+                        <li><a href="/frontend/html/book/lib.html">My Lib</a></li>
+                        <li><button id="logoutButton" class="logout">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="book-container">
+            <div class="filter-container">
+                <div class="filter-section">
+                    <div class="filter-item">
+                        <label for="authorFilter">Author:</label>
+                        <select id="authorFilter">
+                            <option value="">All Authors</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="genreFilter">Genre:</label>
+                        <select id="genreFilter">
+                            <option value="">All Genres</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label for="yearFilter">Year:</label>
+                        <select id="yearFilter">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="book-list-container">
+                <div class="book-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>&copy;Yevhenii Huriev</div>
+    </footer>
+</div>
+
+<script>
+    const loader = document.querySelector(".load");
+    const bodyPage = document.querySelector(".body-page");
+    loader.style.display="block";
+    function loaderOff() {
+        loader.style.display="none";
+        bodyPage.style.display="block";
+    }
+
+    function toggleDropdown() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("show");
+    }
+
+    const apiToken = localStorage.getItem("api_token");
+    const loginLink = document.getElementById("loginLink");
+    const userDropdown = document.getElementById("userDropdown");
+    let currentUserId = 0;
+
+    async function getUserProfile() {
+        try {
+            const response = await fetch('/api/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${apiToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const username = data.data.username;
+                currentUserId = data.data.id;
+
+                loginLink.style.display = "none";
+                userDropdown.style.display = "block";
+                document.querySelector(".dropdown-toggle").textContent = username;
+            } else {
+                console.error("Error retrieving user profile");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    if (apiToken) {
+        try {
+            const decoded = jwt_decode(apiToken);
+
+            const now = Date.now() / 1000;
+            if (decoded.exp < now) {
+                localStorage.removeItem("api_token");
+                loginLink.style.display = "block";
+                userDropdown.style.display = "none";
+                window.location.href = `frontend/html/auth/login.html`;
+            } else {
+                getUserProfile();
+            }
+        } catch (error) {
+            localStorage.removeItem("api_token");
+            loginLink.style.display = "block";
+            userDropdown.style.display = "none";
+        }
+    } else {
+        loginLink.style.display = "block";
+        userDropdown.style.display = "none";
+    }
+
+    document.addEventListener("click", function(event) {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        const userDropdown = document.getElementById("userDropdown");
+
+        if (!userDropdown.contains(event.target) && dropdownMenu.classList.contains("show")) {
+            dropdownMenu.classList.remove("show");
+        }
+    });
+
+    const unreadIndicator = document.getElementById('unread_messages_indicator');
+    const mess_indicator = document.getElementById('mess_indicator');
+
+    if(apiToken) {
+        async function checkUnreadMessages() {
+            try {
+                const response = await fetch('/api/chats', {
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    console.error('Unable to retrieve the list of chats.');
+                    return;
+                }
+
+                const chats = await response.json();
+
+                const hasUnreadMessages = chats.some(chat =>
+                    chat.messages.some(
+                        message => !message.is_checked && message.sender_id !== currentUserId
+                    )
+                );
+
+                unreadIndicator.style.display = hasUnreadMessages ? 'inline-block' : 'none';
+                mess_indicator.style.width = hasUnreadMessages ? '134px' : '115px';
+            } catch (error) {
+                console.error('Error checking unread messages:', error);
+            }
+        }
+
+        checkUnreadMessages();
+
+        setInterval(checkUnreadMessages, 15000);
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const navbarLinks = document.querySelector(".navbar-links");
+
+        async function getAuthenticatedUserRole() {
+            if(apiToken)
+            {
+                try {
+                    const response = await fetch('/api/profile', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${apiToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const result = await response.json();
+                    return result.success ? result.data.role.name : null;
+                } catch (error) {
+                    console.error("Error fetching user role:", error);
+                    return null;
+                }
+            }
+        }
+
+        const userRole = await getAuthenticatedUserRole();
+
+        function addNavLinksByRole(role) {
+            if (role === "admin") {
+                navbarLinks.insertAdjacentHTML("beforeend", `
+                <li><a href="/frontend/html/mod/book.html">Books</a></li>
+                <li><a href="/frontend/html/mod/user.html">Users</a></li>
+                <li><a href="/frontend/html/mod/report.html">Reports</a></li>
+            `);
+            } else if (role === "moderator") {
+                navbarLinks.insertAdjacentHTML("beforeend", `
+                <li><a href="/frontend/html/mod/report.html">Reports</a></li>
+            `);
+            }
+        }
+
+        addNavLinksByRole(userRole);
+    });
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const authorFilter = document.getElementById("authorFilter");
+        const genreFilter = document.getElementById("genreFilter");
+        const yearFilter = document.getElementById("yearFilter");
+        const bookList = document.querySelector(".book-list");
+
+        let userPurchases = [];
+        let userFavorites = [];
+
+        async function fetchPurchases() {
+            if(apiToken)
+            {
+                try {
+                    const response = await fetch("http://localhost:8000/api/purchases", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiToken}`
+                        }
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        userPurchases = result.data.map(purchase => purchase.book_id);
+                    } else {
+                        console.error("Error loading purchases: status", response.status);
+                    }
+                } catch (error) {
+                    console.error("Error loading purchases:", error);
+                }
+            }
+        }
+
+        async function fetchFavorites() {
+            if(apiToken)
+            {
+                try {
+                    const response = await fetch("http://localhost:8000/api/favorites", {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiToken}`
+                        }
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        userFavorites = result.data.map(favorite => favorite.book_id);
+                    } else {
+                        console.error("Error loading favorites: status", response.status);
+                    }
+                } catch (error) {
+                    console.error("Error loading favorites:", error);
+                }
+            }
+        }
+
+        const searchInput = document.querySelector(".search-input");
+
+        async function displaySearchedBooks(title) {
+            try {
+                const response = await fetch("http://localhost:8000/api/books");
+                if (response.ok) {
+                    const result = await response.json();
+                    const books = result.data;
+
+                    const filteredBooks = books.filter(book =>
+                        book.title.toLowerCase().includes(title.toLowerCase()) &&
+                        !userPurchases.includes(book.id)
+                    );
+
+                    bookList.innerHTML = "";
+
+                    filteredBooks.reverse().forEach(book => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        card.innerHTML = `
+                        <div class="img" style="background-image: url('/${book.cover_image}')"></div>
+                        <h3>${book.title.length > 20 ? book.title.slice(0, 20) + '...' : book.title}</h3>
+                    `;
+                        if (userFavorites.includes(book.id)) {
+                            const favoriteIcon = document.createElement("i");
+                            favoriteIcon.className = "fa-solid fa-heart favorite-icon";
+
+                            favoriteIcon.addEventListener("mouseenter", () => {
+                                favoriteIcon.classList.remove("fa-heart");
+                                favoriteIcon.classList.add("fa-heart-crack");
+                            });
+
+                            favoriteIcon.addEventListener("mouseleave", () => {
+                                favoriteIcon.classList.remove("fa-heart-crack");
+                                favoriteIcon.classList.add("fa-heart");
+                            });
+
+                            favoriteIcon.addEventListener("click", (event) => {
+                                event.stopPropagation();
+                            });
+
+                            card.appendChild(favoriteIcon);
+                        }
+
+                        card.addEventListener("click", () => {
+                            window.location.href = `/frontend/html/book/show.html?id=${book.id}`;
+                        });
+
+                        bookList.appendChild(card);
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading books", error);
+            }
+        }
+
+        searchInput.addEventListener("input", (event) => {
+            event.preventDefault();
+            const title = searchInput.value.trim();
+
+            authorFilter.value = "";
+            genreFilter.value = "";
+            yearFilter.value = "";
+
+            if (title === "") {
+                displayBooks();
+            } else {
+                displaySearchedBooks(title);
+            }
+        });
+
+        async function fetchAuthors() {
+            try {
+                const response = await fetch("http://localhost:8000/api/authors");
+                if (response.ok) {
+                    const result = await response.json();
+                    const authors = result.data.sort((a, b) => a.name.localeCompare(b.name));
+
+                    authors.forEach(author => {
+                        const option = document.createElement("option");
+                        option.value = author.id;
+                        option.textContent = author.name;
+                        authorFilter.appendChild(option);
+                    });
+                } else {
+                    console.error("Error uploading authors: status", response.status);
+                }
+            } catch (error) {
+                console.error("Error uploading authors:", error);
+            }
+        }
+
+        async function fetchGenres() {
+            try {
+                const response = await fetch("http://localhost:8000/api/genres");
+                if (response.ok) {
+                    const result = await response.json();
+                    const genres = result.data.sort((a, b) => a.name.localeCompare(b.name));
+
+                    genres.forEach(genre => {
+                        const option = document.createElement("option");
+                        option.value = genre.id;
+                        option.textContent = genre.name;
+                        genreFilter.appendChild(option);
+                    });
+                } else {
+                    console.error("Genre loading error: status", response.status);
+                }
+            } catch (error) {
+                console.error("Error loading genres:", error);
+            }
+        }
+
+        async function fetchYears() {
+            try {
+                const response = await fetch("http://localhost:8000/api/books");
+                if (response.ok) {
+                    const result = await response.json();
+                    const books = result.data;
+                    const years = [...new Set(books.map(book => book.year))].sort((a, b) => b - a);
+
+                    years.forEach(year => {
+                        const option = document.createElement("option");
+                        option.value = year;
+                        option.textContent = year;
+                        yearFilter.appendChild(option);
+                    });
+                } else {
+                    console.error("Error loading years: status", response.status);
+                }
+            } catch (error) {
+                console.error("Error loading years:", error);
+            }
+        }
+
+        async function displayBooks(authorId = "", genreId = "", year = "") {
+            try {
+                const response = await fetch("http://localhost:8000/api/books");
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const books = result.data;
+
+                    bookList.innerHTML = "";
+
+                    const filteredBooks = books.filter(book =>
+                        (authorId === "" || book.authors.some(a => a.id === parseInt(authorId))) &&
+                        (genreId === "" || book.genres.some(g => g.id === parseInt(genreId))) &&
+                        (year === "" || book.year === year) &&
+                        !userPurchases.includes(book.id)
+                    );
+
+                    filteredBooks.reverse().forEach(book => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        card.innerHTML = `
+                        <div class="img" style="background-image: url('/${book.cover_image}')"></div>
+                        <h3 class="title">${book.title.length > 20 ? book.title.slice(0, 20) + '...' : book.title}</h3>
+                    `;
+                        if (userFavorites.includes(book.id)) {
+                            const favoriteIcon = document.createElement("i");
+                            favoriteIcon.className = "fa-solid fa-heart favorite-icon";
+
+                            favoriteIcon.addEventListener("mouseenter", () => {
+                                favoriteIcon.classList.remove("fa-heart");
+                                favoriteIcon.classList.add("fa-heart-crack");
+                            });
+
+                            favoriteIcon.addEventListener("mouseleave", () => {
+                                favoriteIcon.classList.remove("fa-heart-crack");
+                                favoriteIcon.classList.add("fa-heart");
+                            });
+
+                            favoriteIcon.addEventListener("click", async (event) => {
+                                event.stopPropagation();
+                                try {
+                                    const response = await fetch(`/api/destroy_by_book_id`, {
+                                        method: "DELETE",
+                                        headers: {
+                                            "Authorization": `Bearer ${apiToken}`,
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({ book_id: book.id })
+                                    });
+
+                                    if (response.ok) {
+                                        userFavorites = userFavorites.filter(id => id !== book.id);
+                                        card.removeChild(favoriteIcon);
+                                    } else {
+                                        console.error("Error removing book from favorites:", await response.json());
+                                        alert("Failed to remove book from favorites. Please try again.");
+                                    }
+                                } catch (error) {
+                                    console.error("Error removing book from favorites:", error);
+                                }
+                            });
+
+                            card.appendChild(favoriteIcon);
+                        }
+
+                        card.addEventListener("click", () => {
+                            window.location.href = `/frontend/html/book/show.html?id=${book.id}`;
+                        });
+
+                        bookList.appendChild(card);
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading books:", error);
+            }
+        }
+
+        if(apiToken)
+        {
+            await fetchPurchases();
+            await fetchFavorites();
+        }
+        await fetchAuthors();
+        await fetchGenres();
+        await fetchYears();
+        await displayBooks();
+        loaderOff();
+
+        authorFilter.addEventListener("change", () => displayBooks(authorFilter.value, genreFilter.value, yearFilter.value));
+        genreFilter.addEventListener("change", () => displayBooks(authorFilter.value, genreFilter.value, yearFilter.value));
+        yearFilter.addEventListener("change", () => displayBooks(authorFilter.value, genreFilter.value, yearFilter.value));
+
+    });
+
+    function closeAllSelects(exceptSelect = null) {
+        document.querySelectorAll('.filter-item select').forEach(otherSelect => {
+            if (otherSelect !== exceptSelect && otherSelect.isOpen) {
+                const parentElement = otherSelect.parentElement;
+                parentElement.style.height = '59px';
+                otherSelect.isOpen = false;
+                otherSelect.disabled = true;
+                setTimeout(() => otherSelect.disabled = false, 0);
+            }
+        });
+    }
+
+    document.querySelectorAll('.filter-item select').forEach(select => {
+        select.isOpen = false;
+
+        select.addEventListener('click', function(event) {
+            event.stopPropagation();
+            if (this.isOpen) {
+                this.parentElement.style.height = '59px';
+                this.isOpen = false;
+                this.disabled = true;
+                setTimeout(() => this.disabled = false, 0);
+            } else {
+                closeAllSelects(this);
+                const optionsCount = this.options.length;
+                const optionHeight = 27;
+                const calculatedHeight = optionsCount * optionHeight;
+                this.parentElement.style.height = `${calculatedHeight + 50}px`;
+                this.isOpen = true;
+            }
+        });
+
+        select.addEventListener('mouseleave', function() {
+            if (this.isOpen) {
+                this.parentElement.style.height = '59px';
+                this.isOpen = false;
+                this.disabled = true;
+                setTimeout(() => this.disabled = false, 0);
+            }
+        });
+
+        select.addEventListener('change', function() {
+            this.parentElement.style.height = '59px';
+            this.isOpen = false;
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.filter-item select')) {
+            closeAllSelects();
+        }
+    });
+
+    window.addEventListener('scroll', closeAllSelects);
+
+    window.addEventListener('wheel', function(event) {
+        if (event.deltaY !== 0) {
+            closeAllSelects();
+        }
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", async function () {
+        await logout();
+    });
+
+    const logout = async () => {
+        const url = `http://localhost:8000/api/logout`;
+        const api_token = localStorage.getItem("api_token");
+
+        if (!api_token) {
+            console.error("No token found in localStorage. User may already be logged out.");
+            window.location.href = "../index.html";
+            return;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${api_token}`,
+                },
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                localStorage.removeItem("api_token");
+                console.log("Logged out successfully!");
+
+                window.location.href = "/frontend/html/index.html";
+            } else {
+                console.log("Logout failed: ", data.message);
+            }
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
+</script>
+</body>
+</html>

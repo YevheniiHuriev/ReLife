@@ -1,0 +1,343 @@
+.navbar-links {
+    margin-left: 310px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 81.5vh;
+}
+
+.options-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: 60px 30px 0 165px;
+}
+
+.options-con button {
+    font-size: 16px;
+    margin: 0 15px -1.5px 15px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    z-index: 2;
+    color: #E0E0E0;
+}
+.options-con button.active {
+    border-bottom: 3px solid #ea8102;
+}
+.options-con hr {
+    margin-bottom: 20px;
+    width: 300px;
+    position: relative;
+    z-index: 1;
+    border: 0.1px solid #596972;
+}
+
+#btn-favorite {
+    cursor: pointer;
+}
+#btn-purchased {
+    cursor: pointer;
+}
+
+.container {
+    width: 85%;
+    margin: 0 auto;
+    position: fixed;
+    top: 30px;
+    right: -20px;
+    z-index: 10;
+    background-color: rgba(27, 29, 31);
+    padding: 0 10px;
+    box-shadow: inset -10px 0 20px rgba(103, 103, 103, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.container_data {
+    margin-top: 95px;
+}
+
+.user-info {
+    margin: -10px 0 0 63px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.user-photo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 20px 0 60px;
+}
+
+.user-picture-container {
+    margin: 20px 15px 0 0;
+    position: relative;
+    display: inline-block;
+}
+
+.user-picture {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow:  0 1px 5px rgba(0, 0, 0, 0.87);
+}
+
+#username {
+    max-width: 390px;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #FF8C00;
+    margin: 30px 0 0 -20px;
+    color: #E0E0E0;
+}
+
+#username:focus {
+    outline: none;
+    background-color: transparent;
+}
+
+.btn-container {
+    margin-left: auto;
+    margin-right: 24px;
+}
+
+.btn-message {
+    background-color: rgb(27, 29, 31);
+    color: #E0E0E0;
+    padding: 11px;
+    border: 1px solid #ea8102;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s;
+    width: 130px;
+    margin: 30px 60px 0 0;
+}
+
+.btn-message:hover {
+    color: #FF8C00;
+    background-color: rgb(24, 26, 28);
+    transform: scale(0.99);
+}
+
+.hr-btn {
+    width: 98.6%;
+    margin: -17px 0 0 -4px;
+    border: 1px solid #445056;
+}
+
+.hr-underground {
+    border: 1px solid #b7b7b7;
+}
+
+.purchased-filter-container, .filter-container {
+    margin-right: 220px;
+    padding-right: 23px;
+}
+
+.purchased-filter-section, .filter-section {
+    margin: 10px 0 10px -5px;
+    max-width: 230px;
+    padding: 20px;
+    box-shadow: 2px -2px 2px rgba(96, 96, 96, 0.1);
+    border-right: 1px solid rgba(255, 165, 0, 0.45);
+    border-top: 1px solid rgba(255, 165, 0, 0.45);
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 570px;
+    overflow-y: auto;
+    position: fixed;
+    top: 60px;
+    left: 15px;
+}
+
+.purchased-filter-item, .filter-item {
+    margin-bottom: 20px;
+}
+
+.purchased-filter-item label, .filter-item label {
+    margin-left: 60px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.purchased-filter-item select, .filter-item select {
+    border-radius: 10px;
+    margin-bottom: 5px;
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.purchased-filter-item select:focus, .filter-item select:focus {
+    position: relative;
+    z-index: 100;
+}
+
+.purchased-book-list-container, .book-list-container {
+    min-height: 350px;
+}
+
+.purchased-book-list, .book-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    padding: 10px;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+.purchased-book-container, .book-container {
+    display: flex;
+}
+
+.purchased-card, .card {
+    position: relative;
+    width: 200px;
+    box-shadow: 2px 2px 2px 2px rgba(75, 75, 75, 0.1);
+    border-right: 2px solid rgba(255, 165, 0, 0.65);
+    border-bottom: 2px solid rgba(255, 165, 0, 0.65);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-bottom: 3px;
+}
+
+.purchased-card:hover, .card:hover {
+    transform: scale(1.05);
+}
+
+.purchased-img, .img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    background-color: transparent;
+}
+
+.purchased-title, .title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 220px;
+    text-align: center;
+    padding: 6px 5px 4px 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.favorite-icon {
+    color: red;
+    font-size: 25px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.no-purchased, .no-favorites {
+    margin-top: 100px;
+}
+
+.chat-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 990;
+}
+.chat-modal-content {
+    background-color: rgba(31, 33, 35, 0.99);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    color: #E0E0E0;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 991;
+}
+.chat-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 22px;
+    cursor: pointer;
+}
+.chat-close:hover,
+.chat-close:focus {
+    color: #949494;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.chat-modal-title {
+    margin-bottom: 20px;
+}
+.chat-label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.chat-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #a9a9a9;
+    font-size: 15px;
+    background-color: transparent;
+    color: #E0E0E0;
+}
+.chat-input:hover {
+    border-bottom: 1px solid #FF8C00;
+}
+.chat-input:focus {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #FF8C00;
+}
+
+.chat-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.chat-button {
+    padding: 10px 20px;
+    background-color: #1f2225;
+    color: #E0E0E0;
+    border: 2px solid #ea8102;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.chat-button:hover {
+    color: #FF8C00;
+    background-color: #1b1e1f;
+}

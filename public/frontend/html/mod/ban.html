@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/mod/ban.css">
+    <title>Banned</title>
+
+</head>
+<body>
+<h1>You are Banned</h1>
+<p>Your access has been restricted due to violation of the rules and ignoring warnings.</p>
+<p id="ban_countdown"></p>
+
+<a href="/frontend/html/index.html">Return to Home</a>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);'date'
+    const banEndDate = urlParams.get("date");
+
+    if (banEndDate) {
+        const countdownElement = document.getElementById("ban_countdown");
+
+        const updateCountdown = () => {
+            const now = new Date();
+            const banEnd = new Date(banEndDate);
+
+            const timeRemaining = banEnd - now;
+
+            if (timeRemaining > 0) {
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `Ban will be lifted in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                countdownElement.innerHTML = "Your ban has been lifted.";
+                clearInterval(interval);
+            }
+        };
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    } else {
+        document.getElementById("ban_countdown").innerHTML = "No ban date available.";
+    }
+</script>
+</body>
+
+</html>

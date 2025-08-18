@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/mod/user.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/loader.css">
+    <script src="https://unpkg.com/imask"></script>
+    <title>Users</title>
+</head>
+<body>
+<div class="load"  style="display: none">
+    <div class="loader"></div>
+</div>
+<div class="body-page" style="display: none">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">ReLife</div>
+            <ul class="navbar-links">
+                <li><a href="/frontend/html/index.html">Home</a></li>
+            </ul>
+            <div class="navbar-user">
+                <a href="/frontend/html/auth/login.html" class="login-link" id="loginLink">Login</a>
+
+                <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">Username</button>
+                    <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="/frontend/html/auth/profile.html">Profile</a></li>
+                        <li><a href="/frontend/html/book/favorites.html">Favorites</a></li>
+                        <li id="mess_indicator">
+                            <a href="/frontend/html/user/message.html">
+                                Messages <span id="unread_messages_indicator" style="display: none;" class="indicator">●</span>
+                            </a>
+                        </li>
+                        <li><a href="/frontend/html/book/lib.html">My Lib</a></li>
+                        <li><button id="logoutButton" class="logout">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="user-form-container">
+                <form id="updateForm" enctype="multipart/form-data">
+                    <div class="custom-selector">
+                        <div class="selector-display" id="selectorDisplay">Select the user</div>
+                        <div class="dropdown" id="dropdown" style="display: none;">
+                            <ul class="dropdown-list" id="dropdownList"></ul>
+                        </div>
+                    </div>
+
+                    <div class="form-photo">
+                        <div class="profile-picture-container">
+                            <img id="profileImage" src="/storage/img/avatar.jpg" alt="Profile Picture" class="profile-picture">
+                            <input type="file" id="photo" accept="image/jpg,image/jpeg,image/png" class="file-input">
+                            <div class="camera-icon">
+                                <i class="fa-solid fa-camera-retro"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container">
+                        <div class="user-info">
+                            <h4>System data</h4>
+                            <div class="form-group-1">
+                                <div class="user"> <small><label for="username">Username</label></small> <input type="text" id="username" placeholder="username" autocomplete="off" required> </div>
+                                <div class="role"> <small><label for="role">Role</label></small> <select id="role"></select> </div>
+
+                                <div class="password"> <small><label for="password">Password</label></small> <input type="password" id="password" placeholder="password" autocomplete="new-password" minlength="4"> </div>
+                                <div class="confirm"> <small><label for="passwordConfirmation">Confirm password</label></small> <input type="password" id="passwordConfirmation" placeholder="confirm password"> </div>
+                            </div>
+                        </div>
+                        <div class="register-info">
+                            <h4>Personal data</h4>
+                            <div class="form-group-2">
+                                <div class="fname"> <small><label for="firstName">First name</label></small> <input type="text" id="firstName" placeholder="first name" required minlength="2"> </div>
+                                <div class="lname"> <small><label for="lastName">Last name</label></small> <input type="text" id="lastName" placeholder="last name" required minlength="2"> </div>
+
+                                <div class="phone"> <small><label for="phone">Phone</label></small> <input type="tel" id="phone" placeholder="(000) 000-0000" required> </div>
+                                <div class="date"> <small><label for="dateOfBirth">Birthdate</label></small> <input class="birthdate" type="date" id="dateOfBirth" required> </div>
+
+
+                                <div class="address"> <small><label for="address">Address</label></small> <input type="text" id="address" placeholder="address" required minlength="3"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="hr-btn">
+                    <div class="btn-container">
+                        <button class="update" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <hr>
+        <div>&copy;Yevhenii Huriev</div>
+    </footer>
+</div>
+
+<script src="../../js/auth/logout.js"></script>
+<script src="../../js/mod/user.js"></script>
+
+</body>
+</html>

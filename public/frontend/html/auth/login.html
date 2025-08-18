@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="../../css/auth/login.css">
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <title>Login</title>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="navbar-brand">ReLife</div>
+        <ul class="navbar-links">
+            <li><a href="/frontend/html/index.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="email">Email*</label>
+        <input type="email" id="email" placeholder="email" required autocomplete="off">
+        <label for="password" style="margin-top: 10px">Password*</label>
+        <input type="password" id="password" placeholder="password" required autocomplete="new-password">
+        <hr>
+        <div class="btn-container">
+            <a class="register-btn" href="/frontend/html/auth/register.html">Register</a>
+            <button class="login" type="submit">Login</button>
+        </div>
+    </form>
+</main>
+
+<footer>
+    <div>&copy;Yevhenii Huriev</div>
+</footer>
+
+<script src="../../js/auth/login.js"></script>
+
+</body>
+</html>
+

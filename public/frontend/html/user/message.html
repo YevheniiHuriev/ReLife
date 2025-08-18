@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/user/message.css">
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/loader.css">
+    <title>Message</title>
+</head>
+<body>
+<div class="load"  style="display: none">
+    <div class="loader"></div>
+</div>
+<div class="body-page" style="display: none">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">ReLife</div>
+            <ul class="navbar-links">
+                <li><a href="/frontend/html/index.html">Home</a></li>
+            </ul>
+            <div class="navbar-user">
+                <a href="/frontend/html/auth/login.html" class="login-link" id="loginLink">Login</a>
+                <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">Username</button>
+                    <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="/frontend/html/auth/profile.html">Profile</a></li>
+                        <li><a href="/frontend/html/book/favorites.html">Favorites</a></li>
+                        <li id="mess_indicator">
+                            <a href="/frontend/html/user/message.html">
+                                Messages <span id="unread_messages_indicator" style="display: none;" class="indicator">●</span>
+                            </a>
+                        </li>
+                        <li><a href="/frontend/html/book/lib.html">My Lib</a></li>
+                        <li><button id="logoutButton" class="logout">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="main-container">
+            <div id="chatList">
+                <ul></ul>
+            </div>
+            <div id="message-container">
+                <div class="stopper"></div>
+                <div id="messageList" class="message-list"></div>
+                <form id="messageForm" style="display: none;">
+                    <textarea id="new-message" placeholder="Type your message..."></textarea>
+                    <button id="send-button" type="submit"><i class="fa-solid fa-arrow-up"></i></button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>&copy; Yevhenii Huriev</div>
+    </footer>
+
+</div>
+
+<script src="../../js/user/message.js"></script>
+<script src="../../js/auth/logout.js"></script>
+<script src="../../js/auth/nav.js"></script>
+
+</body>
+</html>

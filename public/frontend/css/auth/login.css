@@ -1,0 +1,102 @@
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 81.5vh;
+    margin: -50px 0 60px 0;
+}
+
+h2 {
+    color: #FF8C00;
+    margin-bottom: 20px;
+}
+
+form {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(14, 14, 14, 0.87);
+    width: 320px;
+    text-align: center;
+    background-color: #222528;
+}
+
+label {
+    display: inline-block;
+    width: 100%;
+    margin: 7px 0 2px 15px;
+    text-align: left;
+    color: #E0E0E0;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-bottom: 1px solid #a9a9a9;
+    font-size: 15px;
+    background-color: transparent;
+    color: #E0E0E0;
+}
+input[type="email"]:hover,
+input[type="password"]:hover {
+    border-bottom: 1px solid #FF8C00;
+}
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #FF8C00;
+}
+
+hr {
+    width: 85%;
+    margin: 20px 0 10px 20px;
+    border: 1px solid #445056;
+}
+.login {
+    background-color: #232628;
+    color: #E0E0E0;
+    padding: 12px;
+    border: 2px solid #ea8102;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    width: 100px;
+    margin: 10px 0;
+}
+.login:hover {
+    color: #FF8C00;
+    background-color: #212426;
+    transform: scale(0.99);
+}
+
+.register-btn {
+    text-decoration: none;
+    background-color: transparent;
+    color: #E0E0E0;
+    padding: 0 10px 10px 10px;
+    border: none;
+    border-bottom: 2px solid #5d6f79;
+    cursor: pointer;
+    font-size: 17px;
+    transition: background-color 0.3s;
+    margin-right: 20px;
+}
+.register-btn:hover {
+    color: orange;
+    border-bottom: 2px solid #b67705;
+    transform: scale(0.99);
+}

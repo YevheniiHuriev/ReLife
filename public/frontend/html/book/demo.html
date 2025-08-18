@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/book/demo.css">
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/loader.css">
+    <title>Demo</title>
+    <!-- Підключення бібліотеки PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</head>
+<body>
+<div class="load"  style="display: none">
+    <div class="loader"></div>
+</div>
+<div class="body-page" style="display: none">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">ReLife</div>
+            <ul class="navbar-links">
+                <li><button id="back">Back</button></li>
+            </ul>
+            <div class="navbar-user">
+                <a href="/frontend/html/auth/login.html" class="login-link" id="loginLink">Login</a>
+
+                <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">Username</button>
+                    <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="/frontend/html/auth/profile.html">Profile</a></li>
+                        <li><a href="/frontend/html/book/favorites.html">Favorites</a></li>
+                        <li id="mess_indicator">
+                            <a href="/frontend/html/user/message.html">
+                                Messages <span id="unread_messages_indicator" style="display: none;" class="indicator">●</span>
+                            </a>
+                        </li>
+                        <li><a href="/frontend/html/book/lib.html">My Lib</a></li>
+                        <li><button id="logoutButton" class="logout">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="demo-container">
+            <div class="settings-container">
+                <label for="fontSize">Font size:</label>
+                <input type="number" id="fontSize" value="16" min="8" max="36" step="1">
+
+                <label for="textColor">Text color:</label>
+                <input type="color" id="textColor" value="#d9d9d9">
+
+                <label for="pageColor">Page color:</label>
+                <input type="color" id="pageColor" value="#1b1d1f">
+
+                <label for="zoomLevel">Width:</label>
+                <input type="range" id="zoomLevel" value="900" min="600" max="1400" step="100">
+                <span class="tooltip" data-tooltip="Font size: &#160;&#160;&#160;Changes the font of the text.
+
+                Text color: &#160;&#160;Changes the color of the text.
+
+                Page color: Changes the color of the page.
+
+                Width: &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Change the width of the page.">F.A.Q.</span>
+            </div>
+            <hr>
+
+            <div id="textLayer" class="text-layer"></div>
+
+                <div class="pagination-buttons">
+                    <button id="prevPage" disabled><i class="fa-solid fa-caret-left"></i></button>
+                    <input
+                        type="number"
+                        class="page-number"
+                        id="pageNumber"
+                        value="1"
+                        min="1"
+                    />
+                    <button id="nextPage"><i class="fa-solid fa-caret-right"></i></button>
+                </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>&copy;Yevhenii Huriev</div>
+    </footer>
+
+</div>
+
+<script src="../../js/auth/nav.js"></script>
+<script src="../../js/auth/logout.js"></script>
+<script src="../../js/book/demo.js"></script>
+
+</body>
+</html>

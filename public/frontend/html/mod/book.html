@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <link rel="stylesheet" href="/frontend/css/nav.css">
+    <link rel="stylesheet" href="/frontend/css/mod/book.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/loader.css">
+    <title>Books</title>
+</head>
+<body>
+<div class="load"  style="display: none">
+    <div class="loader"></div>
+</div>
+<div class="body-page" style="display: none">
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">ReLife</div>
+            <ul class="navbar-links">
+                <li><a href="/frontend/html/index.html">Home</a></li>
+            </ul>
+            <div class="navbar-user">
+                <a href="/frontend/html/auth/login.html" class="login-link" id="loginLink">Login</a>
+
+                <div class="user-dropdown" id="userDropdown" style="display: none;">
+                    <button class="dropdown-toggle" onclick="toggleDropdown()">Username</button>
+                    <ul class="dropdown-menu" id="dropdownMenu">
+                        <li><a href="/frontend/html/auth/profile.html">Profile</a></li>
+                        <li><a href="/frontend/html/book/favorites.html">Favorites</a></li>
+                        <li id="mess_indicator">
+                            <a href="/frontend/html/user/message.html">
+                                Messages <span id="unread_messages_indicator" style="display: none;" class="indicator">●</span>
+                            </a>
+                        </li>
+                        <li><a href="/frontend/html/book/lib.html">My Lib</a></li>
+                        <li><button id="logoutButton" class="logout">Logout</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="book-container">
+            <div class="options-con">
+                <div>
+                    <button id="btn_new_book">New book</button>
+                    <button id="btn_up_book">Update book</button>
+                    <button id="btn_del_book">Delete book</button>
+                </div>
+                <hr>
+            </div>
+
+            <div class="new-book">
+                <form id="addBookForm" enctype="multipart/form-data">
+                    <div class="title"> <label for="title">Title</label> <input type="text" id="title" placeholder="title" minlength="1" required> </div>
+
+                    <div class="add-file-container">
+
+                        <div class="cover-form-img">
+                            <div class="cover-image-container" id="coverImageContainer">
+                                <img id="coverImagePicture" src="/storage/img/cover.jpg" alt="Cover Picture" class="cover-picture">
+                                <input type="file" id="coverImage" accept="image/jpg,image/jpeg,image/png" class="cover-file-input" required>
+                                <div class="cover-icon">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                            </div>
+                            <label class="cover-lbl" for="coverImage">Cover image <small><b>⭡</b></small></label>
+                        </div>
+
+                        <div class="demo-form-img">
+                            <div class="demo-image-container" id="demoImageContainer">
+                                <img id="demoImagePicture" src="/storage/img/demo.jpg" alt="Demo Picture" class="demo-picture">
+                                <input type="file" id="demo" accept="application/pdf" class="demo-file-input" required>
+                                <div class="demo-icon">
+                                    <i class="fa-solid fa-book-open-reader"></i>
+                                </div>
+                            </div>
+                            <label class="demo-lbl" for="coverImage">Demo *.pdf <small><b>⭡</b></small></label>
+                        </div>
+
+                        <div class="content-form-img">
+                            <div class="content-image-container" id="contentImageContainer">
+                                <img id="contentImagePicture" src="/storage/img/content.jpg" alt="Content Picture" class="content-picture">
+                                <input type="file" id="content" accept="application/pdf" class="content-file-input" required>
+                                <div class="content-icon">
+                                    <i class="fa-solid fa-book-open"></i>
+                                </div>
+                            </div>
+                            <label class="content-lbl" for="content">Content *.pdf <small><b>⭡</b></small></label>
+                        </div>
+                    </div>
+                    <hr class="file-hr">
+                    <div class="description"> <label for="description">Description</label> <textarea id="description" placeholder="description" required minlength="10"></textarea> </div>
+                    <div class="authors"> <label for="authors">Authors</label><input type="text" id="authors" placeholder="authors (comma-separated)" required minlength="5"> </div>
+                    <div class="genres"> <label for="genres">Genres</label><input type="text" id="genres" placeholder="genres (comma-separated)" required minlength="4"> </div>
+                    <div class="year"> <label for="year">Year</label><input type="number" id="year" placeholder="year" required min="1"> </div>
+                    <div class="pages"> <label for="pages">Pages</label><input type="number" id="pages" placeholder="pages" required min="1"></div>
+                    <div class="price"> <label for="price">Price</label><input type="number" id="price" step="0.01" placeholder="price" required min="0.01"> </div>
+
+                    <button class="btn-add-book" type="submit">Add</button>
+                </form>
+            </div>
+
+            <div class="up-book">
+                <div>
+                    <div class="up-custom-selector">
+                        <div class="selector-display" id="selectorDisplay">Select the title</div>
+                        <div class="dropdown" id="dropdown" style="display: none;">
+                            <ul class="dropdown-list" id="dropdownList"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <form id="upBookForm" enctype="multipart/form-data">
+                        <div class="title"> <label for="update_title">Title</label> <input type="text" id="update_title" placeholder="title" minlength="1" required> </div>
+
+                        <div class="add-file-container">
+
+                            <div class="cover-form-img">
+                                <div class="cover-image-container" id="update_coverImageContainer">
+                                    <img id="update_coverImagePicture" src="/storage/img/cover.jpg" alt="Cover Picture" class="cover-picture">
+                                    <input type="file" id="update_coverImage" accept="image/jpg,image/jpeg,image/png" class="cover-file-input">
+                                    <div class="cover-icon">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                </div>
+                                <label class="cover-lbl" for="coverImage">Cover image <small><b>⭡</b></small></label>
+                            </div>
+
+                            <div class="demo-form-img">
+                                <div class="demo-image-container" id="update_demoImageContainer">
+                                    <img id="update_demoImagePicture" src="/storage/img/demo.jpg" alt="Demo Picture" class="demo-picture">
+                                    <input type="file" id="update_demo" accept="application/pdf" class="demo-file-input">
+                                    <div class="demo-icon">
+                                        <i class="fa-solid fa-book-open-reader"></i>
+                                    </div>
+                                </div>
+                                <label class="demo-lbl" for="coverImage">Demo *.pdf <small><b>⭡</b></small></label>
+                            </div>
+
+                            <div class="content-form-img">
+                                <div class="content-image-container" id="update_contentImageContainer">
+                                    <img id="update_contentImagePicture" src="/storage/img/content.jpg" alt="Content Picture" class="content-picture">
+                                    <input type="file" id="update_content" accept="application/pdf" class="content-file-input">
+                                    <div class="content-icon">
+                                        <i class="fa-solid fa-book-open"></i>
+                                    </div>
+                                </div>
+                                <label class="content-lbl" for="content">Content *.pdf <small><b>⭡</b></small></label>
+                            </div>
+                        </div>
+                        <hr class="file-hr">
+                        <div class="description"> <label for="update_description">Description</label> <textarea id="update_description" placeholder="description" required minlength="10"></textarea> </div>
+                        <div class="authors"> <label for="update_authors">Authors</label><input type="text" id="update_authors" placeholder="authors (comma-separated)" required minlength="5"> </div>
+                        <div class="genres"> <label for="update_genres">Genres</label><input type="text" id="update_genres" placeholder="genres (comma-separated)" required minlength="4"> </div>
+                        <div class="year"> <label for="update_year">Year</label><input type="number" id="update_year" placeholder="year" required min="1"> </div>
+                        <div class="pages"> <label for="update_pages">Pages</label><input type="number" id="update_pages" placeholder="pages" required min="1"></div>
+                        <div class="price"> <label for="update_price">Price</label><input type="number" id="update_price" step="0.01" placeholder="price" required min="0.01"> </div>
+
+                        <button class="btn-add-book" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="del-book">
+                <div>
+                    <div class="del-custom-selector">
+                        <div class="selector-display" id="delete_selector_display">Select the title</div>
+                        <div class="dropdown" id="delete_dropdown" style="display: none;">
+                            <ul class="dropdown-list" id="delete_dropdown_list"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <form id="delBookForm" enctype="multipart/form-data">
+                        <div class="cover-form-img">
+                            <div class="cover-image-container" id="delete_coverImageContainer">
+                                <img id="delete_coverImagePicture" src="/storage/img/cover.jpg" alt="Cover Picture" class="cover-picture">
+                                <div class="cover-icon">
+                                    <i class="fa-solid fa-book"></i>
+                                </div>
+                            </div>
+                            <label class="cover-lbl" for="coverImage">Cover image <small><b>⭡</b></small></label>
+                        </div>
+                        <hr class="file-hr">
+                        <div class="title"> <label for="delete_title">Title</label> <input type="text" id="delete_title" placeholder="title" readonly> </div>
+
+                        <div class="authors"> <label for="delete_authors">Authors</label><input type="text" id="delete_authors" placeholder="authors (comma-separated)" readonly> </div>
+
+                        <button class="btn-add-book" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div>&copy;Yevhenii Huriev</div>
+    </footer>
+</div>
+
+<script src="../../js/auth/logout.js"></script>
+<script src="../../js/mod/book.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+.navbar-links #back {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 81.5vh;
+}
+
+.card-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    width: 350px;
+    background-color: #232628;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(14, 14, 14, 0.87);
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.card-form label {
+    font-weight: bold;
+    color: #E0E0E0;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.card-form input[type="password"],
+.card-form input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #a9a9a9;
+    border-radius: 10px;
+    background-color: #272a2d;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    color: #E0E0E0;
+}
+
+.card-form input[type="password"]:hover, .card-form input[type="password"]:focus,
+.card-form input[type="text"]:hover, .card-form input[type="text"]:focus {
+    border-color: #FF8C00;
+    outline: none;
+}
+
+.card-form .expiry-cvv {
+    display: flex;
+    gap: 10px;
+}
+
+#expiry-date {
+    width: 100%;
+}
+
+#cvv {
+    width: 100%;
+}
+
+.card-form button {
+    width: 180px;
+    background-color: #232628;
+    color: #E0E0E0;
+    padding: 12px;
+    border: 2px solid #ea8102;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-form button:hover {
+    color: #FF8C00;
+    background-color: #202325;
+    transform: scale(0.995);
+}
