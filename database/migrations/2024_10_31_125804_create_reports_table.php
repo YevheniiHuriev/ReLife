@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('reporter_id')->constrained('users');
             $table->text('reason');
             $table->boolean('isChecked')->default(false);
+            $table->string('verdict')->nullable();
             $table->timestamps();
         });
     }
