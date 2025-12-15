@@ -1,66 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Relife
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Full-stack веб-платформа для книг "Цифрова бібліотека"**
+*Laravel 11 + MySQL + нативний JS/HTML/CSS*
 
-## About Laravel
+Платформа дозволяє користувачам переглядати, купувати та читати книги, залишати коментарі, спілкуватися між користувачами та керувати власною бібліотекою. Адміністратор та модератори можуть керувати контентом та користувачами.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Мотивація та цінність проєкту
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Актуальність:** цифрові бібліотеки стають популярними, тому важливо надати швидкий та зручний доступ до літератури.
+- **Освітня та соціальна цінність:** сприяє популяризації читання та створенню спільноти навколо книг.
+- **Практичні навички:** реалізація проекту дозволяє застосувати знання Laravel, MySQL, нативного JS та принципів фронтенд- та бекенд-розробки.
 
-## Learning Laravel
+**Розв’язані проблеми:**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Обмежений доступ до контенту перед покупкою → демо-версії книг.
+2. Обмежена взаємодія між користувачами → коментарі та чати.
+3. Відсутність ефективної модерації → система ролей та управління репортами.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Функціонал
 
-## Laravel Sponsors
+**Неавторизований користувач:**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Перегляд книг, фільтрація за автором, жанром, роком видання  
+- Пошук книг  
+- Перегляд демо-версій та базової інформації про книгу  
+- Перегляд коментарів  
 
-### Premium Partners
+**Авторизований користувач:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Редагування профілю  
+- Додавання книг в "Обране" та купівля книг  
+- Коментарі: створення, редагування, видалення, репорти  
+- Приватні чати та нотатки до придбаних книг  
+- Персоналізація перегляду книги (розмір тексту, колір сторінки тощо)  
 
-## Contributing
+**Адміністратор:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Управління книгами: додавання, редагування, видалення  
+- Управління користувачами та ролями  
+- Модерація коментарів та репортів: попередження, мут або бан користувачів  
 
-## Code of Conduct
+**Модератор:**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Робота з репортами та модерація коментарів  
+- Обмежений доступ до управління книгами та користувачами 
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Технології
 
-## License
+- **Backend:** PHP 8, Laravel 11, MySQL, Passport (автентифікація, токени)  
+- **Frontend:** HTML, CSS, JavaScript (нативний)  
+- **Інші:** Git, Composer, локальний сервер Artisan  
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Налаштування та запуск
+
+### 1. Попередні вимоги
+
+- Git: [скачати](https://git-scm.com/)  
+- PHP 8 + Composer: [скачати PHP](https://www.php.net/downloads)
+- MySQL: [скачати MySQL](https://dev.mysql.com/downloads/)
+
+---
+
+### 2. Налаштування проекту
+
+Клонувати репозиторій:
+
+<pre>bash
+git clone https://github.com/yourusername/relife.git
+cd relife</pre>
+
+Створити файл .env у корені проекту:
+
+<pre>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=relife
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+APP_KEY=base64:YOUR_APP_KEY</pre>
+
+
+Згенерувати APP_KEY можна командою:
+
+<pre>php artisan key:generate</pre>
+
+---
+
+###  3. Запуск проекту
+
+Запустити міграції:
+
+<pre>php artisan migrate:fresh</pre>
+
+Запустити локальний сервер:
+
+<pre>php artisan serve</pre>
+
+Відкрити у браузері: [http://localhost:8000](http://localhost:8000)
+
+---
+
+### 4. Доступ до програми
+
+- Головна сторінка: перегляд книг, фільтри, пошук
+- Реєстрація/Логін: створення користувача з персональною інформацією
+- Профіль: редагування даних, перегляд обраного та придбаних книг
+- Книги: демо-версії, додавання в обране, купівля
+- Коментарі та репорти
+- Приватні чати
+- Адміністратор: управління книгами, користувачами та репортами
+
+---
+
+### 5. Підключення до бази даних
+
+Сервер: `127.0.0.1`
+Порт: `3306`
+Користувач: `root`
+Пароль: як у `.env`
+База даних: `relife`
+
+Можна підключатися через MySQL Workbench, DBeaver або phpMyAdmin.
+
+---
+
+### 6. Зупинення проекту
+
+Якщо використовуєте локальний сервер:
+
+`CTRL + C`
+
+---
+
+### 7. Усунення неполадок
+
+- Помилка підключення до бази даних: перевірте `.env` та запущений MySQL.
+- Помилка ключа APP_KEY: виконати `php artisan key:generate`.
